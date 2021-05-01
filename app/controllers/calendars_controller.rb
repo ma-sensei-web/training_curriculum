@@ -56,7 +56,7 @@ class CalendarsController < ApplicationController
       # days = { :month => (@todays_date + x).month, :date => (@todays_date + x).day, :plans => today_plans, :wday => wdays[wday_num + x] } # wdaysから値を取り出す記述
       # 「:wday => wdaysから値を取り出す記述」について、:wdayは1日分の曜日が入っているキーである。右側は表示されるバリューであり、仮に配列になっているwdaysとすると、七日分全ての曜日が出力されることになる。実際にしてみると、縦に日〜土の情報が出力されることになる。ここではこのwdaysの中から一つだけ取り出したいので、[]を使って指定する。指定先は[]に数値として働いているwdayだが、これはwday_num = Date.today.wdayとしてwday_numに代入されているので、指定先を[wday_num]とする。ただ、このままでは、今日の曜日を一つだけ取り出せたが、ずっと今日の曜日が続いているだけなので、日付が変わるごとに一つ一つズラしていく必要がある。そこで既に一つ一つズレている日付を設定された箇所をヒントにし、wdays[wday_num + x]としたが、金曜と土曜までしか表示されなかった。これは7.times do |x|で、7回の処理が終わった時、日付に関しては繰り返し処理をしているので続いていくが、曜日については特に設定していないので、7回の処理で終了してしまい、7番目の土曜日以降の情報がないため、表示されていなかった。だから、ここに+ xをするのではなく、処理は上から順にされるので、もっと上の方で処理ができないか見る必要がある。下にあるのは元に戻している状態である。
 
-      days = { :month => (@todays_date + x).month, :date => (@todays_date + x).day, :plans => today_plans, :wday => wdays[wday_num] }
+      days = { month: (@todays_date + x).month, date: (@todays_date+x).day, plans: today_plans, wday: wdays[wday_num] }
 
       @week_days.push(days)
     end
