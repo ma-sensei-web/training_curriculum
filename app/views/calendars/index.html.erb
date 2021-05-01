@@ -5,18 +5,21 @@
   <%= f.text_field :plan, class: 'text-input' %>
   <%= f.submit '保存' %>
 <% end %>
+
 <div class='calendar'>
   <% @week_days.each do |day| %>
     <div class='item'>
       <div class='date'>
-        <% day[:month] %>/<% day[:date] %>
+        <%= day[:month] %>/<%= day[:date] %><%= day[:wday] %>
+        <%# :monthと:dateのブロック間の書き方をそのまま真似ねて曜日を表示させると。日付/（曜日）となって「/」が入ってしまい、指定された表示ではなくなる。細かなところもきちんと見ておく。 %>
+
       </div>
       <ul class='content'>
-        <% if day[:plans].length != 0 %>
-          <% day[:plans].each do |plan| %>
-            <li class='plan-list'>・<%= plan %></li>
-          <% end %>
+      <% if day[:plans].length != 0 %>
+        <% day[:plans].each do |plan| %>
+          <li class='plan-list'>・<%= plan %></li>
         <% end %>
+      <% end %>
       </ul>
     </div>
   <% end %>
